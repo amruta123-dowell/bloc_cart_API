@@ -1,13 +1,15 @@
-import 'package:bloc_cart/home/home_models/product_data_model.dart';
+import 'package:bloc_cart/wishlist/bloc/wishlist_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../cartBloc_folder/cart_bloc.dart';
+import '../../cart/cartBloc_folder/cart_bloc.dart';
+import '../../home/home_models/product_data_model.dart';
 
-class CartTileWidget extends StatelessWidget {
-  final CartBloc cartBloc;
-  final ProductDataModel productDataModel;
-  const CartTileWidget(
-      {required this.productDataModel, required this.cartBloc, super.key});
+class WishItemTileWidget extends StatelessWidget {
+  final WishlistBloc wishlistBloc;
+  final ProductDataModel itemModel;
+
+  const WishItemTileWidget(
+      {required this.wishlistBloc, required this.itemModel, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +30,14 @@ class CartTileWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(productDataModel.imgUrl))),
+                      image: NetworkImage(itemModel.imgUrl))),
             ),
             const SizedBox(height: 20),
             Text(
-              productDataModel.name,
+              itemModel.name,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            Text(productDataModel.description),
+            Text(itemModel.description),
             const SizedBox(
               height: 25,
             ),
@@ -43,7 +45,7 @@ class CartTileWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "\$ ${productDataModel.price}",
+                  "\$ ${itemModel.price}",
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -53,14 +55,13 @@ class CartTileWidget extends StatelessWidget {
                   children: [
                     IconButton(
                         onPressed: () {
-                          cartBloc.add(AddToWishListFromCartEvent(
-                              productDataModel: productDataModel));
+                          wishlistBloc
+                              .add(AddToCartFromWishListEvent(itemModel));
                         },
-                        icon: const Icon(Icons.favorite_outline)),
+                        icon: const Icon(Icons.shopping_bag)),
                     IconButton(
                         onPressed: () {
-                          cartBloc.add(RemoveCartActionEvent(
-                              productDataModel: productDataModel));
+                          wishlistBloc.add(RemoveItemWishListEvent(itemModel));
                         },
                         icon: const Icon(Icons.delete))
                   ],

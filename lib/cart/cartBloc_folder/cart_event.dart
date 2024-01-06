@@ -10,3 +10,9 @@ class RemoveCartActionEvent extends CartEvent {
 
   RemoveCartActionEvent({required this.productDataModel});
 }
+
+class AddToWishListFromCartEvent extends CartEvent {
+  final ProductDataModel productDataModel;
+
+  AddToWishListFromCartEvent({required this.productDataModel});
+}
